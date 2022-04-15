@@ -9,8 +9,7 @@ import javax.persistence.*
 public class User {
 
     @Id
-    @GeneratedValue (strategy = GenerationType.SEQUENCE,
-    generator = "user_generator")
+    @GeneratedValue (strategy = GenerationType.SEQUENCE, generator = "user_generator")
     @SequenceGenerator(name = "user_generator",
     initialValue = 1,
     allocationSize = 1)

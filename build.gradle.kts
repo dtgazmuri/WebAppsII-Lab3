@@ -24,9 +24,11 @@ dependencies {
     implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
     implementation("org.jetbrains.kotlin:kotlin-reflect")
     implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
+    //implementation( "org.junit.jupiter","junit-jupiter-engine","5.4.0")
     testImplementation("org.springframework.boot:spring-boot-starter-test")
+    testImplementation(kotlin("test"))
     implementation("org.postgresql", "postgresql", "42.2.5")
-    runtimeOnly("postgresql:postgresql-connector-java")
+    runtimeOnly("mysql:mysql-connector-java")
 }
 
 tasks.withType<KotlinCompile> {
