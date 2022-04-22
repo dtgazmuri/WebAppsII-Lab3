@@ -1,5 +1,6 @@
 package it.group24.lab3.entities
 
+import it.group24.lab3.dtos.ActivationDTO
 import org.hibernate.annotations.GenericGenerator
 import org.springframework.data.util.ProxyUtils
 import java.util.Date
@@ -42,4 +43,13 @@ public class Activation {
     override fun toString(): String {
         return "@Entity ${this.javaClass.name}(id=$activationID)"
     }
+}
+
+fun Activation.toDTO(): ActivationDTO{
+    var activationDTO = ActivationDTO()
+    activationDTO.activationCode = this.activationCode
+    activationDTO.user = this.user
+    activationDTO.attemptCounter = this.attemptCounter
+    activationDTO.deadline = this.deadline
+    return activationDTO
 }

@@ -4,19 +4,18 @@ import it.group24.lab3.entities.Activation
 import it.group24.lab3.entities.User
 import java.sql.Timestamp
 import java.util.*
+import javax.validation.constraints.NotEmpty
 
-data class ActivationDTO(
-    val activationID: UUID?,
-    val activationCode: String,
-    val deadline: Date?,
-    val attemptCounter: Int,
-    val user: User?,
-)
+class ActivationDTO {
+    @NotEmpty
+    var activationCode: String? = null
 
-fun Activation.toDTO(): ActivationDTO {
-    return ActivationDTO( activationID,
-        activationCode,
-        deadline,
-        attemptCounter,
-        user)
+    @NotEmpty
+    var deadline: Date? = null
+
+    @NotEmpty
+    var attemptCounter: Int? = null
+
+    @NotEmpty
+    var user: User? = null
 }

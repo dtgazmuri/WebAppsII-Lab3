@@ -1,18 +1,18 @@
 package it.group24.lab3.entities
 
+import it.group24.lab3.dtos.UserDTO
 import org.springframework.data.util.ProxyUtils
 import javax.persistence.*
 
 
 @Entity
 @Table(name = "users")
-public class User {
-
+class User(){
     @Id
     @GeneratedValue (strategy = GenerationType.SEQUENCE, generator = "user_generator")
     @SequenceGenerator(name = "user_generator",
-    initialValue = 1,
-    allocationSize = 1)
+        initialValue = 1,
+        allocationSize = 1)
     @Column(updatable = false, nullable = false)
     var id: Long? = null
     @Column(unique = true, nullable = false)
@@ -42,5 +42,19 @@ public class User {
     override fun toString(): String {
         return "@Entity ${this.javaClass.name}(id=$id)"
     }
+
+
 }
+
+
+fun User.toDTO(): UserDTO {
+    var userDTO = UserDTO()
+    userDTO.username = this.username
+    userDTO.password = this.password
+    userDTO.email = this.email
+    userDTO.isActive = this.isActive
+    return userDTO
+}
+
+
 
