@@ -1,4 +1,8 @@
 package it.group24.lab3.services
 
-public class EmailService {
+import it.group24.lab3.dtos.UserDTO
+
+interface EmailService {
+
+    fun sendEmail(userDTO: UserDTO, activationCode: String): Boolean
 }

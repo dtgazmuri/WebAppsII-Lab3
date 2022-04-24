@@ -28,7 +28,7 @@ dependencies {
     implementation("org.assertj:assertj-core:3.22.0")
     implementation("javax.validation:validation-api:2.0.1.Final")
     implementation("org.hibernate:hibernate-validator:7.0.4.Final")
-    //implementation("org.thymeleaf:thymeleaf:3.0.0.RELEASE")
+    implementation("org.json:json:20090211")
     testImplementation("org.springframework.boot:spring-boot-starter-test")
     testImplementation(kotlin("test"))
     implementation("org.postgresql", "postgresql", "42.2.5")

@@ -2,7 +2,6 @@ package it.group24.lab3.dtos
 
 import it.group24.lab3.entities.User
 import it.group24.lab3.validators.PasswordConstraint
-import org.springframework.web.bind.annotation.ModelAttribute
 import javax.validation.constraints.*
 
 
@@ -15,7 +14,15 @@ class UserDTO{
     @Email
     @NotEmpty
     var email: String? = null
-    var isActive: Boolean = false
 }
 
+
+fun UserDTO.toUser(): User{
+    val user = User()
+    user.username = this.username
+    user.email = this.email
+    user.password = this.password
+    //user.isActive = this.isActive
+    return user
+}
 

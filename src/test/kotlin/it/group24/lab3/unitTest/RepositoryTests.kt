@@ -1,6 +1,8 @@
 package it.group24.lab3.unitTest
 
+import it.group24.lab3.entities.Activation
 import it.group24.lab3.entities.User
+import it.group24.lab3.repositories.ActivationRepository
 import it.group24.lab3.repositories.UserRepository
 import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.BeforeEach
@@ -10,6 +12,7 @@ import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.TestMethodOrder
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
+import java.util.*
 
 @SpringBootTest
 
@@ -18,53 +21,51 @@ class UnitTests(){
 
     @Autowired
     lateinit var userRepository: UserRepository
-    //lateinit var activationRepository: UserRepository
+    @Autowired
+    lateinit var activationRepository: ActivationRepository
 
     fun initialize(): List<User>{
         val users: List<User> = mutableListOf(
             User().apply {
-                //id = 1
                 username = "Luca"
                 password = "secret"
                 email = "luca@luca.it"
-                isActive = true
             },
             User().apply {
-                //id = 2
                 username = "Cristina"
                 password = "secret"
                 email = "cristina@cristina.it"
-                isActive = true
             },
             User().apply {
-                //id = 2
                 username = "Diego"
                 password = "secret"
                 email = "diego@diego.cile"
-                isActive = true
             },
             User().apply {
-                //id = 3
                 username = "Aliresa"
                 password = "secret"
                 email = "aliresa@aliresa.iran"
-                isActive = true
             },
             User().apply {
-                //id = 4
                 username = "Mammata"
                 password = "secret"
                 email = "mammata@mammata.put"
-                isActive = false
             }
         )
-        return userRepository.saveAll(users).toList()
+        return users
+    }
+
+    fun getDeadLine(): Date{
+        var c: Calendar = Calendar.getInstance()
+        c.time = Date()
+        c.add(Calendar.DAY_OF_MONTH, 5)
+        return c.time
     }
 
     @BeforeEach
     fun emptyTables(){
+        activationRepository.deleteAll()
         userRepository.deleteAll()
-        //activationRepository.deleteAll()
     }
 
 
@@ -72,21 +73,21 @@ class UnitTests(){
     @Order(1)
     fun testSave(){
         try{
+            var date = getDeadLine()
             val userToSave: User = User().apply {
                 username = "Luca"
                 password = "secret"
                 email = "luca@luca.it"
-                isActive = true
+                isActive = false
             }
-            val userToCompare: User = User().apply {
-                id = 1
-                username = "Luca"
-                password = "secret"
-                email = "luca@luca.it"
-                isActive = true
+            val activationToSave: Activation = Activation().apply {
+                activationCode = "ciao"
+                deadline = date
+                attemptCounter = 5
+                user = userToSave
             }
-
-            Assertions.assertTrue(userToCompare == userRepository.save(userToSave))
+            Assertions.assertDoesNotThrow{userRepository.save(userToSave)}
+            Assertions.assertDoesNotThrow{activationRepository.save(activationToSave)}
         }finally {
             emptyTables()
         }
@@ -96,84 +97,73 @@ class UnitTests(){
     @Order(2)
     fun testSaveAll() {
         try {
+            var usersInserted: List<User> = mutableListOf()
+            val date = getDeadLine()
             val usersToSave: List<User> = mutableListOf(
                 User().apply {
-                    id = 2
                     username = "Luca"
                     password = "secret"
                     email = "luca@luca.it"
-                    isActive = true
                 },
                 User().apply {
-                    id = 3
                     username = "Cristina"
                     password = "secret"
                     email = "cristina@cristina.it"
-                    isActive = true
+
                 },
                 User().apply {
-                    id = 4
                     username = "Diego"
                     password = "secret"
                     email = "diego@diego.cile"
-                    isActive = true
+
                 },
                 User().apply {
-                    id = 5
                     username = "Aliresa"
                     password = "secret"
                     email = "aliresa@aliresa.iran"
-                    isActive = true
+
                 },
                 User().apply {
-                    id = 6
                     username = "Mammata"
                     password = "secret"
                     email = "mammata@mammata.put"
-                    isActive = false
+
                 }
             )
-            val usersToCompare: List<User> = mutableListOf(
-                User().apply {
-                    id = 2
-                    username = "Luca"
-                    password = "secret"
-                    email = "luca@luca.it"
-                    isActive = true
+            Assertions.assertDoesNotThrow { usersInserted = userRepository.saveAll(usersToSave).toList() }
+            val activationsToSave: List<Activation> = mutableListOf(
+                Activation().apply {
+                    activationCode = "ciao"
+                    deadline = date
+                    attemptCounter = 5
+                    user = usersInserted[0]
                 },
-                User().apply {
-                    id = 3
-                    username = "Cristina"
-                    password = "secret"
-                    email = "cristina@cristina.it"
-                    isActive = true
+                Activation().apply {
+                    activationCode = "come"
+                    deadline = date
+                    attemptCounter = 5
+                    user = usersInserted[1]
                 },
-                User().apply {
-                    id = 4
-                    username = "Diego"
-                    password = "secret"
-                    email = "diego@diego.cile"
-                    isActive = true
+                Activation().apply {
+                    activationCode = "stai"
+                    deadline = date
+                    attemptCounter = 5
+                    user = usersInserted[2]
                 },
-                User().apply {
-                    id = 5
-                    username = "Aliresa"
-                    password = "secret"
-                    email = "aliresa@aliresa.iran"
-                    isActive = true
+                Activation().apply {
+                    activationCode = "io"
+                    deadline = date
+                    attemptCounter = 5
+                    user = usersInserted[3]
                 },
-                User().apply {
-                    id = 6
-                    username = "Mammata"
-                    password = "secret"
-                    email = "mammata@mammata.put"
-                    isActive = false
+                Activation().apply {
+                    activationCode = "bene"
+                    deadline = date
+                    attemptCounter = 5
+                    user = usersInserted[4]
                 }
             )
-            val inserted = userRepository.saveAll(usersToSave).toList()
-            for (i in 0 until usersToCompare.count()) {
-                Assertions.assertTrue(usersToCompare[i] == inserted[i])
-            }
+            Assertions.assertDoesNotThrow{activationRepository.saveAll(activationsToSave)}
         }finally {
             emptyTables()
         }
@@ -184,6 +174,7 @@ class UnitTests(){
     fun testCount(){
         try{
             val users = initialize()
+            userRepository.saveAll(users)
             Assertions.assertEquals(5, userRepository.count())
         }finally {
             emptyTables()
@@ -195,6 +186,7 @@ class UnitTests(){
     fun testDelete(){
         try{
             val users = initialize()
+            userRepository.saveAll(users)
             userRepository.delete(users[4])
             Assertions.assertEquals(4, userRepository.count())
         }finally {
@@ -206,7 +198,8 @@ class UnitTests(){
     @Order(5)
     fun testDeleteAll(){
         try{
-            initialize()
+            val users = initialize()
+            userRepository.saveAll(users)
             userRepository.deleteAll()
             Assertions.assertEquals(0, userRepository.count())
         }finally {
@@ -216,11 +209,57 @@ class UnitTests(){
 
     @Test
     @Order(6)
-    fun testFind(){
+    fun testFindById(){
         try{
             val users = initialize()
-            val found = userRepository.findById(22).get()
-            Assertions.assertTrue(users[0] == found)
+            userRepository.saveAll(users)
+            Assertions.assertTrue(userRepository.findById(22).isPresent)
+        }finally {
+            emptyTables()
+        }
+    }
+
+    @Test
+    @Order(7)
+    fun testFind(){
+        try{
+            val date = getDeadLine()
+            val usersToSave = initialize()
+            val activationsToSave: List<Activation> = mutableListOf(
+                Activation().apply {
+                    activationCode = "ciao"
+                    deadline = date
+                    attemptCounter = 5
+                    user = usersToSave[0]
+                },
+                Activation().apply {
+                    activationCode = "come"
+                    deadline = date
+                    attemptCounter = 5
+                    user = usersToSave[1]
+                },
+                Activation().apply {
+                    activationCode = "stai"
+                    deadline = date
+                    attemptCounter = 5
+                    user = usersToSave[2]
+                },
+                Activation().apply {
+                    activationCode = "io"
+                    deadline = date
+                    attemptCounter = 5
+                    user = usersToSave[3]
+                },
+                Activation().apply {
+                    activationCode = "bene"
+                    deadline = date
+                    attemptCounter = 5
+                    user = usersToSave[4]
+                }
+            )
+            activationRepository.saveAll(activationsToSave)
+            Assertions.assertTrue(userRepository.findUserByUsername("Luca").isPresent)
+            Assertions.assertTrue(activationRepository.findActivationByUser(usersToSave[0]).isPresent)
         }finally {
             emptyTables()
         }

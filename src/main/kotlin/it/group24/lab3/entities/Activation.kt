@@ -17,13 +17,13 @@ public class Activation {
     @Column(updatable = false, nullable = false)
     var activationID: UUID? = null
     @Column(unique = true, nullable = false)
-    var activationCode: String = ""
+    var activationCode: String? = ""
     @Column(updatable = false, nullable = false)
     @Temporal(TemporalType.TIMESTAMP)
     var deadline: Date? = null
     @Column(nullable = false)
-    var attemptCounter: Int = 0
-    @OneToOne
+    var attemptCounter: Int? = 0
+    @OneToOne(cascade = [CascadeType.REMOVE])
     var user: User? = null
 
     override fun equals(other: Any?): Boolean {
@@ -37,7 +37,7 @@ public class Activation {
     }
 
     override fun hashCode(): Int {
-        return this.activationID.hashCode() + 22;
+        return this.activationID.hashCode() + 22
     }
 
     override fun toString(): String {
@@ -46,7 +46,7 @@ public class Activation {
 }
 
 fun Activation.toDTO(): ActivationDTO{
-    var activationDTO = ActivationDTO()
+    val activationDTO = ActivationDTO()
     activationDTO.activationCode = this.activationCode
     activationDTO.user = this.user
     activationDTO.attemptCounter = this.attemptCounter

@@ -16,11 +16,11 @@ class User(){
     @Column(updatable = false, nullable = false)
     var id: Long? = null
     @Column(unique = true, nullable = false)
-    var username: String = ""
+    var username: String? = ""
     @Column(nullable = false)
-    var password: String = ""
+    var password: String? = ""
     @Column(unique = true, nullable = false)
-    var email: String = ""
+    var email: String? = ""
     @Column(updatable = true, nullable = false)
     var isActive: Boolean = false
 
@@ -36,7 +36,7 @@ class User(){
     }
 
     override fun hashCode(): Int {
-        return this.id.hashCode() + 22;
+        return this.id.hashCode() + 22
     }
 
     override fun toString(): String {
@@ -48,11 +48,11 @@ class User(){
 
 
 fun User.toDTO(): UserDTO {
-    var userDTO = UserDTO()
+    val userDTO = UserDTO()
     userDTO.username = this.username
     userDTO.password = this.password
     userDTO.email = this.email
-    userDTO.isActive = this.isActive
+    //userDTO.isActive = this.isActive
     return userDTO
 }
 

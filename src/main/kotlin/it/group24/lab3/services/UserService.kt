@@ -1,9 +1,25 @@
 package it.group24.lab3.services
 
 
-import it.group24.lab3.repositories.UserRepository
+import it.group24.lab3.dtos.UserDTO
+import java.util.*
 
 
-interface UserService: UserRepository {
+interface UserService {
 
+    fun addUser(userDTO: UserDTO)
+
+    fun changeActiveState(userDTO: UserDTO)
+
+    fun getAllUsers(): Collection<UserDTO>
+
+    fun getUserByUsername(username: String): UserDTO
+
+    fun getUserIDByUsername(username: String): Long
+
+    fun getActivationIDByUser(userDTO: UserDTO): UUID
+
+    fun checkActivationByID(activationID: UUID, activationCode: String)
+
+    fun getUserByActivationID(activationID: UUID): UserDTO
 }
