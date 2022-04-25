@@ -5,13 +5,9 @@ import javax.persistence.*
 
 @Entity
 @Table(name = "activations")
-class Activation {
-    @Id
-    @GeneratedValue(generator = "uuid2")
-    var id: UUID? = null
-
+class Activation (
     @OneToOne(cascade = [CascadeType.ALL])
-    var user: User? = null
+    var user: User? = null,
 
     var attemptCounter: Int = 5
-}
+): EntityBase<UUID>() {}

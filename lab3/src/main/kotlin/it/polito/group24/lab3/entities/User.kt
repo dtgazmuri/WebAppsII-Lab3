@@ -4,13 +4,9 @@ import javax.persistence.*
 
 @Entity
 @Table(name="users")
-class User {
-    @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
-    var id: Long = 0L
-
-    var username: String = ""
-    var password: String = ""
-    var email: String = ""
+class User(
+    var username: String = "",
+    var password: String = "",
+    var email: String = "",
     var isActive: Boolean = false
-}
+): EntityBase<Long>() {}
