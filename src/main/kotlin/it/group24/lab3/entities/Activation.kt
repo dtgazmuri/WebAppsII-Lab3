@@ -23,7 +23,7 @@ public class Activation {
     var deadline: Date? = null
     @Column(nullable = false)
     var attemptCounter: Int? = 0
-    @OneToOne(cascade = [CascadeType.REMOVE])
+    @OneToOne(cascade = [CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH])
     var user: User? = null
 
     override fun equals(other: Any?): Boolean {

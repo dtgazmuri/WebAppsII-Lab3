@@ -54,8 +54,11 @@ class UserServiceImplementation(
         }
 
         val username = userDTO.username!!
-        if (userRep.findUserByUsername(username).isPresent) {
+        if (userRep.findByUsername(username).isPresent) {
             throw UsernameAlreadyRegisteredException("This username has been already chosen! Try Again")
+        }
+        if(userRep.findByEmail(userDTO.email!!).isPresent){
+            throw EmailAlreadyRegisteredException("This email is already present in the database! Try Again")
         }
         val savedUser = userRep.save(userDTO.toUser())
         val activation = Activation().apply {
@@ -71,7 +74,7 @@ class UserServiceImplementation(
     }
 
     override fun changeActiveState(userDTO: UserDTO) {
-        val user = userRep.findUserByUsername(userDTO.username!!).get()
+        val user = userRep.findByUsername(userDTO.username!!).get()
         userRep.updateActivationStatus(!user.isActive, user.id!!)
     }
 
@@ -80,11 +83,11 @@ class UserServiceImplementation(
     }
 
     override fun getUserByUsername(username: String): UserDTO {
-            return userRep.findUserByUsername(username).get().toDTO()
+            return userRep.findByUsername(username).get().toDTO()
     }
 
     override fun getActivationIDByUser(userDTO: UserDTO): UUID {
-        val user = userRep.findUserByUsername(userDTO.username!!).get()
+        val user = userRep.findByUsername(userDTO.username!!).get()
         return activationRep.getActivationIDByUser(user).get()
     }
 
@@ -96,15 +99,33 @@ class UserServiceImplementation(
             val activation = activationRep.findActivationByActivationID(activationID).get()
             if (activation.activationCode != activationCode){
                 activationRep.decreaseCounterByID(activationID)
+                val counter = this.getCounterByID(activationID)
+                if(counter == 0){
+                    userRep.delete(activationRep.findUserByActivationID(activationID).get())
+                    activationRep.delete(activation)
+                    throw AttemptCounterException("You have reached your maximum attempts. Fullfill the registration form agai!")
+                }
                 throw ActivationCodeNotValidException("The activationCode doesn't match!")
             }
-        }catch (e: kotlin.NoSuchElementException){
+        }catch (e: NoSuchElementException){
             throw ActivationNotFoundException("The activationID you have provided is expired or not a valid one !")
         }
     }
 
     override fun getUserByActivationID(activationID: UUID): UserDTO{
         return activationRep.findUserByActivationID(activationID).get().toDTO()
+    }
+
+    override fun deleteActivationByID(activationID: UUID) {
+        activationRep.deleteActivationByActivationID(activationID)
+    }
+
+    override fun getActivationCodeByActivationID(activationID: UUID): String{
+        return activationRep.findActivationCodeByActivationID(activationID).get()
+    }
+
+    override fun getCounterByID(activationID: UUID): Int {
+        return activationRep.getCounterByID(activationID).get()
     }
 }
 

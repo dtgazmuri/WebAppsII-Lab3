@@ -33,6 +33,13 @@ dependencies {
     testImplementation(kotlin("test"))
     implementation("org.postgresql", "postgresql", "42.2.5")
     runtimeOnly("mysql:mysql-connector-java")
+    testImplementation ("org.testcontainers:junit-jupiter:1.17.1")
+    testImplementation("org.testcontainers:postgresql:1.17.1")
+    dependencyManagement {
+        imports {
+            mavenBom("org.testcontainers:testcontainers-bom:1.16.3")
+        }
+    }
 }
 
 tasks.withType<KotlinCompile> {

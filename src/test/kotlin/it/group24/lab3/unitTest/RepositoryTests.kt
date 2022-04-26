@@ -258,8 +258,8 @@ class UnitTests(){
                 }
             )
             activationRepository.saveAll(activationsToSave)
-            Assertions.assertTrue(userRepository.findUserByUsername("Luca").isPresent)
-            Assertions.assertTrue(activationRepository.findActivationByUser(usersToSave[0]).isPresent)
+            Assertions.assertTrue(userRepository.findByUsername("Luca").isPresent)
+            Assertions.assertTrue(activationRepository.findByUser(usersToSave[0]).isPresent)
         }finally {
             emptyTables()
         }

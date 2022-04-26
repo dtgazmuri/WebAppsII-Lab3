@@ -22,6 +22,7 @@ class ServicesTests() {
     lateinit var activationRepository: ActivationRepository
 
     @BeforeEach
+    @AfterEach
     fun emptyTables(){
         activationRepository.deleteAll()
         userRepository.deleteAll()
@@ -36,9 +37,9 @@ class ServicesTests() {
             email = "luca@luca.it"
         }
         Assertions.assertDoesNotThrow { (userServiceImplementation.addUser(user.toDTO())) }
-        user = userRepository.findUserByUsername("Luca").get()
-        Assertions.assertTrue(activationRepository.findActivationByUser(user).isPresent)
-        Assertions.assertTrue(userRepository.findUserByUsername("Luca").isPresent)
+        user = userRepository.findByUsername("Luca").get()
+        Assertions.assertTrue(activationRepository.findByUser(user).isPresent)
+        Assertions.assertTrue(userRepository.findByUsername("Luca").isPresent)
     }
 
 }

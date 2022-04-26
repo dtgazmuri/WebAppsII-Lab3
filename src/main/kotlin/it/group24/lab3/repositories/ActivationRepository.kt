@@ -16,10 +16,15 @@ interface ActivationRepository: CrudRepository<Activation, UUID> {
     @Query("delete from Activation where deadline < ?1")
     fun deleteExpiredActivation(date: Date);
 
-    fun findActivationByUser(user: User): Optional<Activation>;
+    fun deleteActivationByActivationID(activationID: UUID)
+
+    fun findByUser(user: User): Optional<Activation>;
 
     @Query("select user from Activation where activationID = ?1")
     fun findUserByActivationID(activationID: UUID): Optional<User>
+
+    @Query("select activationCode from Activation where activationID = ?1")
+    fun findActivationCodeByActivationID(activationID: UUID): Optional<String>
 
     fun findActivationByActivationID(activationID: UUID): Optional<Activation>
 
@@ -29,4 +34,7 @@ interface ActivationRepository: CrudRepository<Activation, UUID> {
 
     @Query("select activationID from Activation where user = ?1")
     fun getActivationIDByUser(user: User): Optional<UUID>
+
+    @Query("select attemptCounter from Activation where activationID = ?1")
+    fun getCounterByID(activationID: UUID): Optional<Int>
 }

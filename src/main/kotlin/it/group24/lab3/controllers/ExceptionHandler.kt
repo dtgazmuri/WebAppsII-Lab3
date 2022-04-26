@@ -52,4 +52,22 @@ class ExceptionHandler {
         var messages = mutableListOf<String>(e.message!!)
         return ErrorDetails(Date(), messages)
     }
+
+
+    @ResponseBody
+    @ResponseStatus(HttpStatus.NOT_FOUND)
+    @ExceptionHandler(AttemptCounterException::class)
+    fun activationNotFound(e: AttemptCounterException): ErrorDetails{
+        var messages = mutableListOf<String>(e.message!!)
+        return ErrorDetails(Date(), messages)
+    }
+
+    @ResponseBody
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    @ExceptionHandler(EmailAlreadyRegisteredException::class)
+    fun activationNotFound(e: EmailAlreadyRegisteredException): ErrorDetails{
+        var messages = mutableListOf<String>(e.message!!)
+        return ErrorDetails(Date(), messages)
+    }
+
 }

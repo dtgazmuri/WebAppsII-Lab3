@@ -20,7 +20,7 @@ import javax.validation.Valid
 import kotlin.reflect.full.memberProperties
 
 @Controller
-class UserRegistrationController(val userService: UserServiceImplementation) : WebMvcConfigurer {
+class UserRegistrationController(private val userService: UserServiceImplementation) : WebMvcConfigurer {
 
     /*
     override fun addViewControllers(registry: ViewControllerRegistry) {
@@ -73,9 +73,10 @@ class UserRegistrationController(val userService: UserServiceImplementation) : W
     @ResponseBody
     @ResponseStatus(HttpStatus.CREATED)
     fun validateUser(@RequestBody validationDTO: ValidationDTO): String{
-        userService.checkActivationByID(validationDTO.activationID, validationDTO.activationCode)
-        val user: UserDTO = userService.getUserByActivationID(validationDTO.activationID)
+        userService.checkActivationByID(validationDTO.provisional_id, validationDTO.activation_code)
+        val user: UserDTO = userService.getUserByActivationID(validationDTO.provisional_id)
         userService.changeActiveState(user)
+        userService.deleteActivationByID(validationDTO.provisional_id)
         return JSONObject().put("id", userService.getUserIDByUsername(user.username!!))
             .put("nickname", user.username).put("email", user.email).toString()
     }

@@ -22,4 +22,11 @@ interface UserService {
     fun checkActivationByID(activationID: UUID, activationCode: String)
 
     fun getUserByActivationID(activationID: UUID): UserDTO
+
+    fun deleteActivationByID(activationID: UUID)
+
+    fun getActivationCodeByActivationID(activationID: UUID): String
+
+    fun getCounterByID(activationID: UUID): Int
+
 }
