@@ -5,11 +5,15 @@ import java.util.*
 
 data class ActivationDTO(
     val userId: Long,
+    val deadline: Date,
+    val activationCode: String,
     val attemptCounter: Int
 )
 
 fun Activation.toDTO() = ActivationDTO(
     user!!.getId()!!,
+    deadline,
+    activationCode,
     attemptCounter
 )
 
