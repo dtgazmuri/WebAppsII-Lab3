@@ -25,7 +25,12 @@ dependencies {
     implementation("org.jetbrains.kotlin:kotlin-reflect")
     implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
     testImplementation("org.springframework.boot:spring-boot-starter-test")
+
+    // PostgreSQL
     implementation("org.postgresql", "postgresql", "42.2.5")
+
+    // Library Bucket4J
+    implementation("com.github.vladimir-bukhtoyarov:bucket4j-core:7.4.0")
 }
 
 tasks.withType<KotlinCompile> {
