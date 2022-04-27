@@ -4,6 +4,7 @@ import it.group24.lab3.entities.Activation
 import it.group24.lab3.entities.User
 import it.group24.lab3.repositories.ActivationRepository
 import it.group24.lab3.repositories.UserRepository
+import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.MethodOrderer
@@ -12,6 +13,7 @@ import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.TestMethodOrder
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
+import org.springframework.jdbc.core.JdbcTemplate
 import java.util.*
 
 @SpringBootTest
@@ -21,8 +23,12 @@ class UnitTests(){
 
     @Autowired
     lateinit var userRepository: UserRepository
+
     @Autowired
     lateinit var activationRepository: ActivationRepository
+
+    @Autowired
+    private lateinit var jdbcTemplate: JdbcTemplate
 
     fun initialize(): List<User>{
         val users: List<User> = mutableListOf(
@@ -62,42 +68,51 @@ class UnitTests(){
         return c.time
     }
 
-    @BeforeEach
-    fun emptyTables(){
+    @AfterEach
+    fun cleanup(){
         activationRepository.deleteAll()
         userRepository.deleteAll()
+        jdbcTemplate.execute("ALTER SEQUENCE user_generator RESTART WITH 1")
     }
 
 
     @Test
     @Order(1)
-    fun testSave(){
-        try{
-            var date = getDeadLine()
+    fun testSaveUser(){
             val userToSave: User = User().apply {
                 username = "Luca"
                 password = "secret"
                 email = "luca@luca.it"
-                isActive = false
-            }
-            val activationToSave: Activation = Activation().apply {
-                activationCode = "ciao"
-                deadline = date
-                attemptCounter = 5
-                user = userToSave
             }
             Assertions.assertDoesNotThrow{userRepository.save(userToSave)}
-            Assertions.assertDoesNotThrow{activationRepository.save(activationToSave)}
-        }finally {
-            emptyTables()
-        }
+
     }
 
     @Test
     @Order(2)
+    fun testSaveActivation(){
+        var date = getDeadLine()
+        val userToSave: User = User().apply {
+            username = "Luca"
+            password = "secret"
+            email = "luca@luca.it"
+            isActive = false
+        }
+        val activationToSave: Activation = Activation().apply {
+            activationCode = "ciao"
+            deadline = date
+            attemptCounter = 5
+            user = userToSave
+        }
+        Assertions.assertDoesNotThrow{userRepository.save(userToSave)}
+        Assertions.assertDoesNotThrow{activationRepository.save(activationToSave)}
+    }
+
+    @Test
+    @Order(3)
     fun testSaveAll() {
-        try {
-            var usersInserted: List<User> = mutableListOf()
+
+            var usersInserted = listOf<User>()
             val date = getDeadLine()
             val usersToSave: List<User> = mutableListOf(
                 User().apply {
@@ -130,7 +145,7 @@ class UnitTests(){
 
                 }
             )
-            Assertions.assertDoesNotThrow { usersInserted = userRepository.saveAll(usersToSave).toList() }
+            Assertions.assertDoesNotThrow{ usersInserted = userRepository.saveAll(usersToSave).toList()}
             val activationsToSave: List<Activation> = mutableListOf(
                 Activation().apply {
                     activationCode = "ciao"
@@ -164,67 +179,57 @@ class UnitTests(){
                 }
             )
             Assertions.assertDoesNotThrow{activationRepository.saveAll(activationsToSave)}
-        }finally {
-            emptyTables()
         }
-    }
 
-    @Test
-    @Order(3)
-    fun testCount(){
-        try{
-            val users = initialize()
-            userRepository.saveAll(users)
-            Assertions.assertEquals(5, userRepository.count())
-        }finally {
-            emptyTables()
-        }
-    }
 
     @Test
     @Order(4)
+    fun testCount(){
+            val users = initialize()
+            userRepository.saveAll(users)
+            Assertions.assertEquals(5, userRepository.count())
+        }
+
+
+    @Test
+    @Order(5)
     fun testDelete(){
-        try{
+
             val users = initialize()
             userRepository.saveAll(users)
             userRepository.delete(users[4])
             Assertions.assertEquals(4, userRepository.count())
-        }finally {
-            emptyTables()
-        }
-    }
 
-    @Test
-    @Order(5)
-    fun testDeleteAll(){
-        try{
-            val users = initialize()
-            userRepository.saveAll(users)
-            userRepository.deleteAll()
-            Assertions.assertEquals(0, userRepository.count())
-        }finally {
-            emptyTables()
-        }
     }
 
     @Test
     @Order(6)
-    fun testFindById(){
-        try{
+    fun testDeleteAll(){
+
             val users = initialize()
             userRepository.saveAll(users)
-            Assertions.assertTrue(userRepository.findById(22).isPresent)
-        }finally {
-            emptyTables()
-        }
+            userRepository.deleteAll()
+            Assertions.assertEquals(0, userRepository.count())
+
     }
 
     @Test
     @Order(7)
+    fun testFindById(){
+
+            val users = initialize()
+            userRepository.saveAll(users)
+            Assertions.assertTrue(userRepository.findById(2).isPresent)
+
+    }
+
+    @Test
+    @Order(8)
     fun testFind(){
-        try{
+
             val date = getDeadLine()
             val usersToSave = initialize()
+            userRepository.saveAll(usersToSave)
             val activationsToSave: List<Activation> = mutableListOf(
                 Activation().apply {
                     activationCode = "ciao"
@@ -260,8 +265,8 @@ class UnitTests(){
             activationRepository.saveAll(activationsToSave)
             Assertions.assertTrue(userRepository.findByUsername("Luca").isPresent)
             Assertions.assertTrue(activationRepository.findByUser(usersToSave[0]).isPresent)
-        }finally {
-            emptyTables()
-        }
+
     }
+
+
 }

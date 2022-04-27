@@ -1,6 +1,7 @@
 package it.group24.lab3.controllers
 
 
+import io.github.bucket4j.Bucket
 import it.group24.lab3.CustomExceptions.WrongFieldException
 import it.group24.lab3.dtos.UserDTO
 import it.group24.lab3.dtos.ValidationDTO
@@ -21,6 +22,7 @@ import kotlin.reflect.full.memberProperties
 
 @Controller
 class UserRegistrationController(private val userService: UserServiceImplementation) : WebMvcConfigurer {
+
 
     /*
     override fun addViewControllers(registry: ViewControllerRegistry) {

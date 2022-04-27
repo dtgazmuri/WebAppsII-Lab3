@@ -22,8 +22,8 @@ public class Activation {
     @Temporal(TemporalType.TIMESTAMP)
     var deadline: Date? = null
     @Column(nullable = false)
-    var attemptCounter: Int? = 0
-    @OneToOne(cascade = [CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH])
+    var attemptCounter: Int? = 5
+    @OneToOne(cascade = [CascadeType.DETACH, CascadeType.MERGE, CascadeType.REFRESH])
     var user: User? = null
 
     override fun equals(other: Any?): Boolean {

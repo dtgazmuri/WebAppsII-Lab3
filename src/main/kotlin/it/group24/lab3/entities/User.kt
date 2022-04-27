@@ -52,7 +52,6 @@ fun User.toDTO(): UserDTO {
     userDTO.username = this.username
     userDTO.password = this.password
     userDTO.email = this.email
-    //userDTO.isActive = this.isActive
     return userDTO
 }
 

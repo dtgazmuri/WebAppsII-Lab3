@@ -8,11 +8,277 @@ Content-Type: application/json
 }
 
 ###
-POST http://localhost:8080/user/validate
+POST http://localhost:8080/user/register
 Content-Type: application/json
 
+{
+  "username": "Ciao",
+  "password": "sonoSegreta1!",
+  "email": "ciao@polito.it"
+}
+
+###
+POST http://localhost:8080/user/register
+Content-Type: application/json
 
 {
-  "provisional_id":"5464dd9a-712b-4a3d-a42a-822d9ab0b6be",
-  "activation_code":"pqjhdh"
+  "username": "Ciao",
+  "password": "sonoSegreta1!",
+  "email": "ciao@polito.it"
 }
+
+###
+POST http://localhost:8080/user/register
+Content-Type: application/json
+
+{
+  "username": "Ciao",
+  "password": "sonoSegreta1!",
+  "email": "ciao@polito.it"
+}
+
+###
+POST http://localhost:8080/user/register
+Content-Type: application/json
+
+{
+  "username": "Ciao",
+  "password": "sonoSegreta1!",
+  "email": "ciao@polito.it"
+}
+
+###
+POST http://localhost:8080/user/register
+Content-Type: application/json
+
+{
+  "username": "Ciao",
+  "password": "sonoSegreta1!",
+  "email": "ciao@polito.it"
+}
+
+###
+POST http://localhost:8080/user/register
+Content-Type: application/json
+
+{
+  "username": "Ciao",
+  "password": "sonoSegreta1!",
+  "email": "ciao@polito.it"
+}
+
+###
+POST http://localhost:8080/user/register
+Content-Type: application/json
+
+{
+  "username": "Ciao",
+  "password": "sonoSegreta1!",
+  "email": "ciao@polito.it"
+}
+
+###
+POST http://localhost:8080/user/register
+Content-Type: application/json
+
+{
+  "username": "Ciao",
+  "password": "sonoSegreta1!",
+  "email": "ciao@polito.it"
+}
+
+###
+POST http://localhost:8080/user/register
+Content-Type: application/json
+
+{
+  "username": "Ciao",
+  "password": "sonoSegreta1!",
+  "email": "ciao@polito.it"
+}
+
+###
+POST http://localhost:8080/user/register
+Content-Type: application/json
+
+{
+  "username": "Ciao",
+  "password": "sonoSegreta1!",
+  "email": "ciao@polito.it"
+}
+
+###
+POST http://localhost:8080/user/register
+Content-Type: application/json
+
+{
+  "username": "Ciao",
+  "password": "sonoSegreta1!",
+  "email": "ciao@polito.it"
+}
+
+###
+POST http://localhost:8080/user/register
+Content-Type: application/json
+
+{
+  "username": "Ciao",
+  "password": "sonoSegreta1!",
+  "email": "ciao@polito.it"
+}
+
+###
+POST http://localhost:8080/user/register
+Content-Type: application/json
+
+{
+  "username": "Ciao",
+  "password": "sonoSegreta1!",
+  "email": "ciao@polito.it"
+}
+
+###
+POST http://localhost:8080/user/register
+Content-Type: application/json
+
+{
+  "username": "Ciao",
+  "password": "sonoSegreta1!",
+  "email": "ciao@polito.it"
+}
+
+###
+POST http://localhost:8080/user/register
+Content-Type: application/json
+
+{
+  "username": "Ciao",
+  "password": "sonoSegreta1!",
+  "email": "ciao@polito.it"
+}
+
+###
+POST http://localhost:8080/user/register
+Content-Type: application/json
+
+{
+  "username": "Ciao",
+  "password": "sonoSegreta1!",
+  "email": "ciao@polito.it"
+}
+
+###
+POST http://localhost:8080/user/register
+Content-Type: application/json
+
+{
+  "username": "Ciao",
+  "password": "sonoSegreta1!",
+  "email": "ciao@polito.it"
+}
+
+###
+POST http://localhost:8080/user/register
+Content-Type: application/json
+
+{
+  "username": "Ciao",
+  "password": "sonoSegreta1!",
+  "email": "ciao@polito.it"
+}
+
+###
+POST http://localhost:8080/user/register
+Content-Type: application/json
+
+{
+  "username": "Ciao",
+  "password": "sonoSegreta1!",
+  "email": "ciao@polito.it"
+}
+
+###
+POST http://localhost:8080/user/register
+Content-Type: application/json
+
+{
+  "username": "Ciao",
+  "password": "sonoSegreta1!",
+  "email": "ciao@polito.it"
+}
+
+###
+POST http://localhost:8080/user/register
+Content-Type: application/json
+
+{
+  "username": "Ciao",
+  "password": "sonoSegreta1!",
+  "email": "ciao@polito.it"
+}
+
+###
+POST http://localhost:8080/user/register
+Content-Type: application/json
+
+{
+  "username": "Ciao",
+  "password": "sonoSegreta1!",
+  "email": "ciao@polito.it"
+}
+
+###
+POST http://localhost:8080/user/register
+Content-Type: application/json
+
+{
+  "username": "Ciao",
+  "password": "sonoSegreta1!",
+  "email": "ciao@polito.it"
+}
+
+###
+POST http://localhost:8080/user/register
+Content-Type: application/json
+
+{
+  "username": "Ciao",
+  "password": "sonoSegreta1!",
+  "email": "ciao@polito.it"
+}
+
+###
+POST http://localhost:8080/user/register
+Content-Type: application/json
+
+{
+  "username": "Ciao",
+  "password": "sonoSegreta1!",
+  "email": "ciao@polito.it"
+}
+
+###
+POST http://localhost:8080/user/register
+Content-Type: application/json
+
+{
+  "username": "Ciao",
+  "password": "sonoSegreta1!",
+  "email": "ciao@polito.it"
+}
+
+###
+POST http://localhost:8080/user/register
+Content-Type: application/json
+
+{
+  "username": "Ciao",
+  "password": "sonoSegreta1!",
+  "email": "ciao@polito.it"
+}
+
+###
+
+
+
+

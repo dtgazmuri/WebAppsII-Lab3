@@ -1,6 +1,5 @@
-package it.group24.lab3.controllers
+package it.group24.lab3.CustomExceptions
 
-import it.group24.lab3.CustomExceptions.*
 import it.group24.lab3.dtos.ErrorDetails
 import org.springframework.http.HttpStatus
 import org.springframework.web.bind.annotation.ControllerAdvice

@@ -160,12 +160,11 @@ class DbT1ApplicationTests {
         val request = HttpEntity<String>(payload.toString(), headers)
         var entity = restTemplate.postForEntity<String>("/user/register", request)
         val provisional_id: UUID = UUID.fromString(JSONObject(entity.body)["provisional_id"].toString())
-        val activation_code = userService.getActivationCodeByActivationID(provisional_id)
         val payload2 = JSONObject().put("provisional_id", provisional_id)
             .put("activation_code", "ciao")
         val request2 = HttpEntity<String>(payload2.toString(), headers)
         entity = restTemplate.postForEntity<String>("/user/validate", request2)
-        assertThat(entity.statusCode).isEqualTo(HttpStatus.CREATED)
+        assertThat(entity.statusCode).isEqualTo(HttpStatus.NOT_FOUND)
     }
 }
 

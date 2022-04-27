@@ -40,6 +40,7 @@ dependencies {
             mavenBom("org.testcontainers:testcontainers-bom:1.16.3")
         }
     }
+    implementation("com.github.vladimir-bukhtoyarov:bucket4j-core:7.4.0")
 }
 
 tasks.withType<KotlinCompile> {
