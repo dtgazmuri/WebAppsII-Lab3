@@ -1,5 +1,7 @@
 package it.polito.group24.lab3.services
 
+import it.polito.group24.lab3.dtos.UserValidationDTO
+import it.polito.group24.lab3.dtos.ValidateUserResponseDTO
 import it.polito.group24.lab3.entities.Activation
 import it.polito.group24.lab3.entities.User
 import it.polito.group24.lab3.exceptions.DuplicateEntryException
@@ -68,7 +70,7 @@ class UserService(
     /**
      *
      */
-    fun verifyUser(provisionalId: UUID, activationCode: String) {
+    fun validateUser(provisionalId: UUID, activationCode: String): ValidateUserResponseDTO {
 
         val activation = activationRepository.findById(provisionalId)
 
@@ -86,9 +88,11 @@ class UserService(
                 throw UnmatchedActivationCodeException("The activation code provided is wrong.")
             }
             // Correct activation code
-            val userId = activation.get().user!!.getId()!!
+            val user = activation.get().user!!
             activationRepository.deleteById(provisionalId)
-            userRepository.setActive(userId)
+            userRepository.setActive(user.getId()!!)
+
+            return ValidateUserResponseDTO(user.getId()!!, user.username, user.password)
         } else
             throw WrongActivationIDException("The activation id is wrong.")
     }

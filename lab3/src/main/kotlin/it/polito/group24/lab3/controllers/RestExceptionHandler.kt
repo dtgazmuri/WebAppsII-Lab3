@@ -7,6 +7,7 @@ import org.springframework.core.Ordered
 import org.springframework.core.annotation.Order
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
+import org.springframework.web.bind.MethodArgumentNotValidException
 import org.springframework.web.bind.annotation.ExceptionHandler
 import org.springframework.web.bind.annotation.RestControllerAdvice
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler
@@ -18,10 +19,17 @@ class RestExceptionHandler : ResponseEntityExceptionHandler() {
 
     @ExceptionHandler(
         DuplicateEntryException::class,
+        MethodArgumentNotValidException::class
+    )
+    protected fun handleRegistrationException(e: Exception): ResponseEntity<String> {
+        return ResponseEntity(e.message, HttpStatus.BAD_REQUEST)
+    }
+
+    @ExceptionHandler(
         UnmatchedActivationCodeException::class,
         WrongActivationIDException::class
     )
-    protected fun handleMinorException(e: Exception): ResponseEntity<String> {
-        return ResponseEntity(e.message, HttpStatus.BAD_REQUEST)
+    protected fun handleValidationException(e: Exception): ResponseEntity<String> {
+        return ResponseEntity(e.message, HttpStatus.NOT_FOUND)
     }
 }
