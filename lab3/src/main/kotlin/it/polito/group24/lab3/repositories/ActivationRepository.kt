@@ -12,7 +12,7 @@ import java.util.*
 interface ActivationRepository : CrudRepository<Activation, UUID> {
 
     @Modifying
-    @Query("update Activation set attemptCounter = (attemptCounter - 1) where id = ?1")
+    @Query("update Activation set attemptCounter = attemptCounter - 1 where id = ?1")
     fun decrementAttemptCounter(id: UUID);
 
     fun findByDeadlineBefore(timestamp: Timestamp): Set<Activation>;

@@ -6,8 +6,8 @@ import javax.validation.constraints.NotEmpty
 
 data class UserRegistrationDTO(
 
-    @NotEmpty(message = "Provide a valid username!")
-    val username: String,
+    @NotEmpty(message = "Provide a valid nickname!")
+    val nickname: String,
 
     @NotEmpty(message = "Password must be at least 8 characters long, it must" +
             " contain at least one digit, one uppercase letter, one lowercase letter, one" +

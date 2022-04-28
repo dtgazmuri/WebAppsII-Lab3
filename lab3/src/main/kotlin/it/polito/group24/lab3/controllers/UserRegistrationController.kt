@@ -9,20 +9,22 @@ import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestBody
+import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RestController
 import javax.validation.Valid
 
 @RestController
+@RequestMapping("/user")
 class UserRegistrationController(val userService: UserService) {
 
-    @PostMapping("/user/register")
+    @PostMapping("/register")
     fun registerUser(
         @Valid
         @RequestBody
         userRegistrationDTO: UserRegistrationDTO
     ): ResponseEntity<RegisterUserResponseDTO> {
         val provisionalId = userService.registerNewUser(
-            userRegistrationDTO.username,
+            userRegistrationDTO.nickname,
             userRegistrationDTO.password,
             userRegistrationDTO.email
         )
@@ -33,7 +35,7 @@ class UserRegistrationController(val userService: UserService) {
         return ResponseEntity(registerUserResponseDTO, HttpStatus.ACCEPTED)
     }
 
-    @PostMapping("/user/validate")
+    @PostMapping("/validate")
     fun validateUser(
         @Valid
         @RequestBody

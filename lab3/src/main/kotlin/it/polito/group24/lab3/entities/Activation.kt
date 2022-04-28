@@ -8,13 +8,13 @@ import javax.persistence.*
 @Entity
 @Table(name = "activations")
 class Activation (
-    @OneToOne(cascade = [CascadeType.ALL])
+    @OneToOne
     var user: User?,
     @Column(nullable = false)
     var deadline: Timestamp =
-        Timestamp(System.currentTimeMillis() + TimeUnit.MINUTES.toMillis(30)),
+        Timestamp(System.currentTimeMillis() + TimeUnit.MINUTES.toMillis(1)),
     @Column(nullable = false)
     var activationCode: String,
-    @Column(nullable = false)
+    @Column(nullable = false, updatable = true)
     var attemptCounter: Int = 5
 ): EntityBase<UUID>() {}

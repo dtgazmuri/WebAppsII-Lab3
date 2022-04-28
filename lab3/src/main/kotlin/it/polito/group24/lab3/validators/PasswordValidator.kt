@@ -9,16 +9,12 @@ import javax.validation.ConstraintValidatorContext
 class PasswordValidator : ConstraintValidator<PasswordConstraint?, String?> {
     override fun initialize(password: PasswordConstraint?) {}
 
-    private fun isValidPattern(password: String?): Boolean {
-        val passwordPattern = "^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=])(?=\\S+$)$"
-        val pattern = Pattern.compile(passwordPattern)
-        val matcher = pattern.matcher(password)
-        return matcher.matches()
-    }
-    override fun isValid(
-        password: String?,
-        cxt: ConstraintValidatorContext
-    ): Boolean {
-        return (password != null && password.length >= 8 && isValidPattern(password))
+    override fun isValid(value: String?, context: ConstraintValidatorContext?): Boolean {
+        return (value != null &&
+                Pattern.matches(
+                    "^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@\$%^&*-])\\S{8,}\$",
+                    value
+                ))
+
     }
 }

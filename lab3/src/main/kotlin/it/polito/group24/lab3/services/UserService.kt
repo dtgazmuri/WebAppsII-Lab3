@@ -1,16 +1,16 @@
 package it.polito.group24.lab3.services
 
-import it.polito.group24.lab3.dtos.UserValidationDTO
 import it.polito.group24.lab3.dtos.ValidateUserResponseDTO
 import it.polito.group24.lab3.entities.Activation
 import it.polito.group24.lab3.entities.User
+import it.polito.group24.lab3.exceptions.DeadlineExpiredException
 import it.polito.group24.lab3.exceptions.DuplicateEntryException
 import it.polito.group24.lab3.exceptions.UnmatchedActivationCodeException
 import it.polito.group24.lab3.exceptions.WrongActivationIDException
 import it.polito.group24.lab3.repositories.ActivationRepository
 import it.polito.group24.lab3.repositories.UserRepository
 import org.springframework.stereotype.Service
-import java.sql.SQLException
+import org.springframework.transaction.annotation.Transactional
 import java.sql.Timestamp
 import java.util.*
 
@@ -70,6 +70,7 @@ class UserService(
     /**
      *
      */
+    @Transactional
     fun validateUser(provisionalId: UUID, activationCode: String): ValidateUserResponseDTO {
 
         val activation = activationRepository.findById(provisionalId)
@@ -83,16 +84,38 @@ class UserService(
                     activationRepository.deleteById(provisionalId)
                     userRepository.deleteById(userId)
                 }
-                else
+                else {
+                    println("provisionalId: $provisionalId")
+                    println(
+                        "before: " +
+                                activationRepository.findById(provisionalId).get().attemptCounter
+                    )
                     activationRepository.decrementAttemptCounter(provisionalId)
+                    println(
+                        "after: " +
+                                activationRepository.findById(provisionalId).get().attemptCounter
+                    )
+                }
                 throw UnmatchedActivationCodeException("The activation code provided is wrong.")
             }
             // Correct activation code
-            val user = activation.get().user!!
-            activationRepository.deleteById(provisionalId)
-            userRepository.setActive(user.getId()!!)
 
-            return ValidateUserResponseDTO(user.getId()!!, user.username, user.password)
+            // Expired activation code
+            if(activation.get().deadline.before(Timestamp(System.currentTimeMillis()))){
+                val userId = activation.get().user!!.getId()!!
+                println(userId)
+                println(provisionalId)
+                activationRepository.deleteById(provisionalId)
+                userRepository.deleteById(userId)
+                throw DeadlineExpiredException("The activation token has expired!")
+            }
+            else {
+                val user = activation.get().user!!
+                activationRepository.deleteById(provisionalId)
+                userRepository.setActive(user.getId()!!)
+
+                return ValidateUserResponseDTO(user.getId()!!, user.username, user.email)
+            }
         } else
             throw WrongActivationIDException("The activation id is wrong.")
     }
