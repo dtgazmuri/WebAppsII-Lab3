@@ -24,34 +24,7 @@ import kotlin.reflect.full.memberProperties
 class UserRegistrationController(private val userService: UserServiceImplementation) : WebMvcConfigurer {
 
 
-    /*
-    override fun addViewControllers(registry: ViewControllerRegistry) {
-        registry.addViewController("/logInResult").setViewName("logInResult");
-    }
 
-            ----HERE THERE IS THE THE FORM------
-              ----BUT IT WASN'T REQUIRED-----
-    @GetMapping("/user/register")
-    fun registration(model: Model): String {
-        var userDTO = UserDTO()
-        model["user"] = userDTO
-        return "registrationForm"
-    }
-
-    @PostMapping("/user/register")
-
-    fun checkFormsFields(
-        @ModelAttribute("user")
-        @Valid
-        userDTO: UserDTO,
-        bindingResult: BindingResult,
-        model: Model,):  String{
-        if(bindingResult.hasErrors()){
-            return "registrationForm"
-        }
-        return "redirect:/logInResult"
-    }
-     */
 
     @PostMapping("/user/register")
     @ResponseBody
