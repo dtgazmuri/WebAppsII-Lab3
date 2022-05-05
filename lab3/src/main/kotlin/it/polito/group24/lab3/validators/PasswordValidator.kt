@@ -1,6 +1,5 @@
 package it.polito.group24.lab3.validators
 
-import java.util.regex.Matcher
 import java.util.regex.Pattern
 import javax.validation.ConstraintValidator
 import javax.validation.ConstraintValidatorContext

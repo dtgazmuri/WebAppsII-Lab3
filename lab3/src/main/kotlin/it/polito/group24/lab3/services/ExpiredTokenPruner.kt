@@ -12,8 +12,8 @@ class ExpiredTokenPruner(
     val activationRepository: ActivationRepository,
     val userRepository: UserRepository
 ) {
-    fun getExpiredTokens(): Set<Activation> =
-        activationRepository.findByDeadlineBefore(Timestamp(System.currentTimeMillis()))
+    fun getExpiredTokens(): Array<Activation> =
+        activationRepository.findByDeadlineBefore(Timestamp(System.currentTimeMillis())).toTypedArray()
 
     @Scheduled(fixedDelay = 900000)
     fun pruneExpiredTokens() {

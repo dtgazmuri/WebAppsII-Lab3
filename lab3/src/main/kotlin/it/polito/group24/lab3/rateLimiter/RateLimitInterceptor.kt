@@ -12,7 +12,7 @@ import javax.servlet.http.HttpServletResponse
 // Rate limit of 10 requests per minute
 class RateLimitInterceptor : HandlerInterceptor {
 
-    var bucket: Bucket = Bucket.builder()
+    private var bucket: Bucket = Bucket.builder()
         .addLimit(Bandwidth.classic(
             10,
             Refill.intervally(10, Duration.ofMinutes(1))

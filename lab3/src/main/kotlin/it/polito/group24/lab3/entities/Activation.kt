@@ -17,4 +17,4 @@ class Activation (
     var activationCode: String,
     @Column(nullable = false, updatable = true)
     var attemptCounter: Int = 5
-): EntityBase<UUID>() {}
+): EntityBase<UUID>() { }
