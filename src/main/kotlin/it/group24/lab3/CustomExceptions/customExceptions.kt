@@ -14,3 +14,5 @@ class AttemptCounterException(m: String): Exception(m)
 
 class EmailAlreadyRegisteredException(m: String): Exception(m)
 
+class WrongCredentials(m: String): Exception(m)
+

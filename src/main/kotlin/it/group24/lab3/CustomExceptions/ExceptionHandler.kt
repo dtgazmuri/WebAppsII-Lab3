@@ -69,4 +69,12 @@ class ExceptionHandler {
         return ErrorDetails(Date(), messages)
     }
 
+    @ResponseBody
+    @ResponseStatus(HttpStatus.UNAUTHORIZED)
+    @ExceptionHandler(WrongCredentials::class)
+    fun activationNotFound(e: WrongCredentials): ErrorDetails{
+        var messages = mutableListOf<String>(e.message!!)
+        return ErrorDetails(Date(), messages)
+    }
+
 }

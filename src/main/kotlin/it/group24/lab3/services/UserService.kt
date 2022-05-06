@@ -2,6 +2,7 @@ package it.group24.lab3.services
 
 
 import it.group24.lab3.dtos.UserDTO
+import it.group24.lab3.entities.User
 import java.util.*
 
 
@@ -12,6 +13,8 @@ interface UserService {
     fun changeActiveState(userDTO: UserDTO)
 
     fun getAllUsers(): Collection<UserDTO>
+
+    fun getUserByUsernameAndPassword(username: String, password: String): User
 
     fun getUserByUsername(username: String): UserDTO
 

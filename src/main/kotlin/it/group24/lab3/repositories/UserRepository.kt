@@ -13,6 +13,8 @@ interface UserRepository: CrudRepository<User, Long> {
 
     fun findByUsername(username: String): Optional<User>
 
+    fun findByUsernameAndPassword(username: String, password: String): Optional<User>
+
     @Query("select id from User where username = ?1")
     fun findUserIDByUsername(username: String): Optional<Long>
 
