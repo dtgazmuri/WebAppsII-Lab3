@@ -1,8 +1,6 @@
 package it.group24.lab3.controllers
 
 
-import io.github.bucket4j.Bucket
-import io.jsonwebtoken.Jwt
 import io.jsonwebtoken.Jwts
 import io.jsonwebtoken.security.Keys
 import it.group24.lab3.CustomExceptions.WrongFieldException
@@ -12,10 +10,9 @@ import it.group24.lab3.dtos.ValidationDTO
 import it.group24.lab3.services.UserServiceImplementation
 import org.json.JSONObject
 import org.springframework.beans.factory.annotation.Value
-import org.springframework.context.annotation.Bean
 import org.springframework.http.HttpStatus
+import org.springframework.security.core.context.SecurityContextHolder
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder
-import org.springframework.security.crypto.password.PasswordEncoder
 
 import org.springframework.stereotype.Controller
 
@@ -71,7 +68,7 @@ class UserRegistrationController(private val userService: UserServiceImplementat
     @PostMapping("/user/login")
     @ResponseBody
     @ResponseStatus(HttpStatus.OK)
-    fun logIn(@RequestBody loginFormDTO: LoginFormDTO): String{
+    fun logIn(@RequestBody loginFormDTO: LoginFormDTO): String {
 
         fun getExpiration(): Date {
             val c: Calendar = Calendar.getInstance()
@@ -79,18 +76,17 @@ class UserRegistrationController(private val userService: UserServiceImplementat
             c.add(Calendar.HOUR, 1)
             return c.time
         }
-
         val username = loginFormDTO.username
         val password = loginFormDTO.password
         val user = userService.getUserByUsernameAndPassword(username, password)
-        val jwt: String = Jwts.builder()
+
+        return Jwts.builder()
             .setSubject(username)
             .setIssuedAt(Date())
             .setExpiration(getExpiration())
             .claim("roles", user.role)
             .signWith(Keys.hmacShaKeyFor(secretKey!!.toByteArray(StandardCharsets.UTF_8)))
             .compact()
-        return jwt
     }
 }
 
