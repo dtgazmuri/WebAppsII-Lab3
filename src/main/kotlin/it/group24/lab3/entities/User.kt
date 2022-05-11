@@ -23,8 +23,8 @@ class User(){
     var email: String? = ""
     @Column(updatable = true, nullable = false)
     var isActive: Boolean = false
-    @Column(nullable = false)
-    var role: Role? = null
+    @ElementCollection
+    var roles: List<String> = mutableListOf<String>()
 
 
     override fun equals(other: Any?): Boolean {
@@ -54,7 +54,7 @@ fun User.toDTO(): UserDTO {
     userDTO.username = this.username
     userDTO.password = this.password
     userDTO.email = this.email
-    userDTO.role = this.role
+    userDTO.roles = this.roles
     return userDTO
 }
 

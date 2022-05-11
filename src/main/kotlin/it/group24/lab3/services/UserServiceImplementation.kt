@@ -3,10 +3,7 @@ package it.group24.lab3.services
 import it.group24.lab3.CustomExceptions.*
 import it.group24.lab3.dtos.UserDTO
 import it.group24.lab3.dtos.toUser
-import it.group24.lab3.entities.Activation
-import it.group24.lab3.entities.Role
-import it.group24.lab3.entities.User
-import it.group24.lab3.entities.toDTO
+import it.group24.lab3.entities.*
 import it.group24.lab3.repositories.ActivationRepository
 import it.group24.lab3.repositories.UserRepository
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty
@@ -62,7 +59,7 @@ class UserServiceImplementation(
         if(userRep.findByEmail(userDTO.email!!).isPresent){
             throw EmailAlreadyRegisteredException("This email is already present in the database! Try Again")
         }
-        userDTO.role = Role.CUSTOMER
+        userDTO.roles = mutableListOf<String>(Role.ROLE_CUSTOMER.name)
         val savedUser = userRep.save(userDTO.toUser())
         val activation = Activation().apply {
             activationCode = randomString(6L)

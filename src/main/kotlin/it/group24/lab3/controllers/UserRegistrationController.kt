@@ -9,13 +9,13 @@ import it.group24.lab3.dtos.UserDTO
 import it.group24.lab3.dtos.ValidationDTO
 import it.group24.lab3.services.UserServiceImplementation
 import org.json.JSONObject
+import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.http.HttpStatus
-import org.springframework.security.core.context.SecurityContextHolder
+import org.springframework.security.authentication.AuthenticationManager
+import org.springframework.security.core.authority.AuthorityUtils
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder
-
 import org.springframework.stereotype.Controller
-
 import org.springframework.validation.BindingResult
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestBody
@@ -27,8 +27,10 @@ import java.util.*
 import javax.validation.Valid
 import kotlin.reflect.full.memberProperties
 
+
 @Controller
 class UserRegistrationController(private val userService: UserServiceImplementation) : WebMvcConfigurer {
+    
 
     @Value("\${application.jwt.key}")
     private val secretKey: String? = null
@@ -76,15 +78,18 @@ class UserRegistrationController(private val userService: UserServiceImplementat
             c.add(Calendar.HOUR, 1)
             return c.time
         }
+
+
         val username = loginFormDTO.username
         val password = loginFormDTO.password
         val user = userService.getUserByUsernameAndPassword(username, password)
-
-        return Jwts.builder()
-            .setSubject(username)
+        val grantedAuthorities = AuthorityUtils
+            .createAuthorityList(user.roles.toString())
+        return "Bearer " + Jwts.builder()
+            .setSubject(user.username)
             .setIssuedAt(Date())
             .setExpiration(getExpiration())
-            .claim("roles", user.role)
+            .claim("roles", grantedAuthorities)
             .signWith(Keys.hmacShaKeyFor(secretKey!!.toByteArray(StandardCharsets.UTF_8)))
             .compact()
     }
