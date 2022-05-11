@@ -1,5 +1,5 @@
 package it.group24.lab3.entities
 
 enum class Role {
-    CUSTOMER, ADMIN
+    ROLE_CUSTOMER, ROLE_ADMIN
 }

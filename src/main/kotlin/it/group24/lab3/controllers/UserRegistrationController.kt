@@ -30,7 +30,7 @@ import kotlin.reflect.full.memberProperties
 
 @Controller
 class UserRegistrationController(private val userService: UserServiceImplementation) : WebMvcConfigurer {
-    
+
 
     @Value("\${application.jwt.key}")
     private val secretKey: String? = null
