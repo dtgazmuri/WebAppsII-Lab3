@@ -1,9 +1,9 @@
 package it.group24.lab3.services
 
-import it.group24.lab3.CustomExceptions.*
+import it.group24.lab3.customExceptions.*
 import it.group24.lab3.dtos.UserDTO
-import it.group24.lab3.dtos.toUser
 import it.group24.lab3.entities.Activation
+import it.group24.lab3.entities.User
 import it.group24.lab3.entities.toDTO
 import it.group24.lab3.repositories.ActivationRepository
 import it.group24.lab3.repositories.UserRepository
@@ -45,12 +45,10 @@ class UserServiceImplementation(
             val rightLimit = 122 // letter 'z'
             val random = Random()
 
-            var generatedString: String = random.ints(leftLimit, rightLimit + 1)
+            return random.ints(leftLimit, rightLimit + 1)
                 .limit(length)
                 .collect({ StringBuilder() }, java.lang.StringBuilder::appendCodePoint, java.lang.StringBuilder::append)
-                .toString();
-
-            return generatedString
+                .toString()
         }
 
         val username = userDTO.username!!
@@ -60,13 +58,20 @@ class UserServiceImplementation(
         if(userRep.findByEmail(userDTO.email!!).isPresent){
             throw EmailAlreadyRegisteredException("This email is already present in the database! Try Again")
         }
-        val savedUser = userRep.save(userDTO.toUser())
-        val activation = Activation().apply {
-            activationCode = randomString(6L)
-            deadline = getDeadLine()
-            attemptCounter = 5
-            user = savedUser
-        }
+        val savedUser = User(
+            null,
+            userDTO.username,
+            userDTO.password,
+            userDTO.email
+        )
+        userRep.save(savedUser)
+        val activation = Activation(
+            null,
+            randomString(6L),
+            getDeadLine(),
+            5,
+            savedUser
+        )
         activationRep.save(activation)
         emailService.sendEmail(
             "Your activation code",
@@ -105,7 +110,7 @@ class UserServiceImplementation(
                 if(counter == 0){
                     userRep.delete(activationRep.findUserByActivationID(activationID).get())
                     activationRep.delete(activation)
-                    throw AttemptCounterException("You have reached your maximum attempts. Fullfill the registration form agai!")
+                    throw AttemptCounterException("You have reached your maximum attempts. Fulfill the registration form again!")
                 }
                 throw ActivationCodeNotValidException("The activationCode doesn't match!")
             }
@@ -128,6 +133,13 @@ class UserServiceImplementation(
 
     override fun getCounterByID(activationID: UUID): Int {
         return activationRep.getCounterByID(activationID).get()
+    }
+
+    override fun getUserByUsernameAndPassword(username: String, password: String): UserDTO {
+        val user = userRep.findByUsernameAndPassword(username, password)
+        if(!user.isPresent)
+            throw WrongCredentials("Username or password you have provided are wrong!!")
+        return user.get().toDTO()
     }
 }
 

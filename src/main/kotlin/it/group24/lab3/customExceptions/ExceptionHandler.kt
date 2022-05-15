@@ -1,4 +1,4 @@
-package it.group24.lab3.CustomExceptions
+package it.group24.lab3.customExceptions
 
 import it.group24.lab3.dtos.ErrorDetails
 import org.springframework.http.HttpStatus
@@ -24,7 +24,7 @@ class ExceptionHandler {
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler(UsernameAlreadyRegisteredException::class)
     fun wrongUsername(e: UsernameAlreadyRegisteredException): ErrorDetails{
-        var messages = mutableListOf<String>(e.message!!)
+        val messages = mutableListOf<String>(e.message!!)
         return ErrorDetails(Date(), messages)
     }
 
@@ -32,7 +32,7 @@ class ExceptionHandler {
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
     @ExceptionHandler(EmailNotSentException::class)
     fun wrongUsername(e: EmailNotSentException): ErrorDetails{
-        var messages = mutableListOf<String>(e.message!!)
+        val messages = mutableListOf<String>(e.message!!)
         return ErrorDetails(Date(), messages)
     }
 
@@ -40,7 +40,7 @@ class ExceptionHandler {
     @ResponseStatus(HttpStatus.NOT_FOUND)
     @ExceptionHandler(ActivationNotFoundException::class)
     fun activationNotFound(e: ActivationNotFoundException): ErrorDetails{
-        var messages = mutableListOf<String>(e.message!!)
+        val messages = mutableListOf<String>(e.message!!)
         return ErrorDetails(Date(), messages)
     }
 
@@ -48,7 +48,7 @@ class ExceptionHandler {
     @ResponseStatus(HttpStatus.NOT_FOUND)
     @ExceptionHandler(ActivationCodeNotValidException::class)
     fun activationNotFound(e: ActivationCodeNotValidException): ErrorDetails{
-        var messages = mutableListOf<String>(e.message!!)
+        val messages = mutableListOf<String>(e.message!!)
         return ErrorDetails(Date(), messages)
     }
 
@@ -57,7 +57,7 @@ class ExceptionHandler {
     @ResponseStatus(HttpStatus.NOT_FOUND)
     @ExceptionHandler(AttemptCounterException::class)
     fun activationNotFound(e: AttemptCounterException): ErrorDetails{
-        var messages = mutableListOf<String>(e.message!!)
+        val messages = mutableListOf<String>(e.message!!)
         return ErrorDetails(Date(), messages)
     }
 
@@ -65,7 +65,7 @@ class ExceptionHandler {
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler(EmailAlreadyRegisteredException::class)
     fun activationNotFound(e: EmailAlreadyRegisteredException): ErrorDetails{
-        var messages = mutableListOf<String>(e.message!!)
+        val messages = mutableListOf<String>(e.message!!)
         return ErrorDetails(Date(), messages)
     }
 

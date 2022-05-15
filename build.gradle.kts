@@ -19,8 +19,6 @@ repositories {
 
 dependencies {
     implementation("org.springframework.boot:spring-boot-starter-data-jpa")
-    implementation("org.springframework.boot:spring-boot-starter-mail")
-    implementation("org.springframework.boot:spring-boot-starter-thymeleaf")
     implementation("org.springframework.boot:spring-boot-starter-web")
     implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
     implementation("org.jetbrains.kotlin:kotlin-reflect")
@@ -31,6 +29,8 @@ dependencies {
     implementation("org.json:json:20090211")
     testImplementation("org.springframework.boot:spring-boot-starter-test")
     testImplementation(kotlin("test"))
+
+    // Postgres connection library
     implementation("org.postgresql", "postgresql", "42.2.5")
     runtimeOnly("mysql:mysql-connector-java")
     testImplementation ("org.testcontainers:junit-jupiter:1.17.1")
@@ -40,7 +40,21 @@ dependencies {
             mavenBom("org.testcontainers:testcontainers-bom:1.16.3")
         }
     }
+
+    // Rate Limiter
     implementation("com.github.vladimir-bukhtoyarov:bucket4j-core:7.4.0")
+
+    // Email library
+    implementation("org.springframework.boot:spring-boot-starter-mail")
+
+    // Security
+    implementation("org.springframework.boot:spring-boot-starter-security")
+    implementation("org.springframework.security:spring-security-test")
+
+    // JWT
+    implementation("io.jsonwebtoken:jjwt-api:0.11.2")
+    runtimeOnly("io.jsonwebtoken:jjwt-impl:0.11.2")
+    runtimeOnly("io.jsonwebtoken:jjwt-jackson:0.11.2")
 }
 
 tasks.withType<KotlinCompile> {

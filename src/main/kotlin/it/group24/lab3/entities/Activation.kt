@@ -11,20 +11,21 @@ import javax.persistence.*
 
 @Entity
 @Table(name = "activations")
-public class Activation {
+class Activation(
     @Id @GeneratedValue(generator = "uuid2")
     @GenericGenerator(name = "uuid2", strategy = "uuid2")
     @Column(updatable = false, nullable = false)
-    var activationID: UUID? = null
+    var activationID: UUID?,
     @Column(unique = true, nullable = false)
-    var activationCode: String? = ""
+    var activationCode: String?,
     @Column(updatable = false, nullable = false)
     @Temporal(TemporalType.TIMESTAMP)
-    var deadline: Date? = null
+    var deadline: Date?,
     @Column(nullable = false)
-    var attemptCounter: Int? = 5
+    var attemptCounter: Int? = 5,
     @OneToOne(cascade = [CascadeType.DETACH, CascadeType.MERGE, CascadeType.REFRESH])
-    var user: User? = null
+    var user: User?
+) {
 
     override fun equals(other: Any?): Boolean {
         if (other === this) return true

@@ -7,23 +7,25 @@ import javax.persistence.*
 
 @Entity
 @Table(name = "users")
-class User(){
+class User(
     @Id
     @GeneratedValue (strategy = GenerationType.SEQUENCE, generator = "user_generator")
     @SequenceGenerator(name = "user_generator",
         initialValue = 1,
         allocationSize = 1)
     @Column(updatable = false, nullable = false)
-    var id: Long? = null
+    var id: Long?,
     @Column(unique = true, nullable = false)
-    var username: String? = ""
+    var username: String?,
     @Column(nullable = false)
-    var password: String? = ""
+    var password: String?,
     @Column(unique = true, nullable = false)
-    var email: String? = ""
+    var email: String?,
     @Column(updatable = true, nullable = false)
-    var isActive: Boolean = false
-
+    var isActive: Boolean = false,
+    @ElementCollection
+    var roles: MutableSet<Role> = mutableSetOf(Role.CUSTOMER)
+){
 
     override fun equals(other: Any?): Boolean {
         if (other === this) return true
@@ -42,18 +44,14 @@ class User(){
     override fun toString(): String {
         return "@Entity ${this.javaClass.name}(id=$id)"
     }
-
-
 }
 
-
-fun User.toDTO(): UserDTO {
-    val userDTO = UserDTO()
-    userDTO.username = this.username
-    userDTO.password = this.password
-    userDTO.email = this.email
-    return userDTO
-}
+fun User.toDTO() = UserDTO(
+    username,
+    password,
+    email,
+    roles
+)
 
 
 

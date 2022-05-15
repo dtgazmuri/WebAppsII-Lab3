@@ -29,4 +29,5 @@ interface UserService {
 
     fun getCounterByID(activationID: UUID): Int
 
+    fun getUserByUsernameAndPassword(username: String, password: String): UserDTO
 }

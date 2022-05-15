@@ -13,13 +13,17 @@ interface UserRepository: CrudRepository<User, Long> {
 
     fun findByUsername(username: String): Optional<User>
 
+    fun findByUsernameAndPassword(username: String, password: String): Optional<User>
+
     @Query("select id from User where username = ?1")
     fun findUserIDByUsername(username: String): Optional<Long>
 
     @Modifying
     @Query("update User set isActive = ?1 where id = ?2")
-    fun updateActivationStatus(activationStatus: Boolean, userID: Long);
+    fun updateActivationStatus(activationStatus: Boolean, userID: Long)
 
     fun findByEmail(email: String): Optional<User>
+
+
 }
 
