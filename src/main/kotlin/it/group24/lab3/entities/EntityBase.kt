@@ -1,16 +1,19 @@
 package it.group24.lab3.entities
 
 import org.springframework.data.util.ProxyUtils
-import javax.persistence.*
-
+import javax.persistence.GeneratedValue
+import javax.persistence.Id
+import javax.persistence.MappedSuperclass
 
 @MappedSuperclass
-abstract class EntityBase<T: java.io.Serializable>{
-    @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
-    @Column(unique = true, nullable = false)
-    private var id: T? = null
+abstract class EntityBase<T: java.io.Serializable> {
+    companion object {
+        private const val serialVersionUID = -43869754L
+    }
 
+    @Id
+    @GeneratedValue
+    private var id:T? = null
 
     fun getId(): T? = id
 
@@ -19,9 +22,9 @@ abstract class EntityBase<T: java.io.Serializable>{
     }
 
     override fun equals(other: Any?): Boolean {
-        if (other == null) return false
-        if (other === this) return true
-        if (javaClass != ProxyUtils.getUserClass(other))
+        if(other == null) return false
+        if(other == this) return true
+        if(javaClass != ProxyUtils.getUserClass(other))
             return false
         other as EntityBase<*>
         return if (null == id) false
@@ -29,7 +32,6 @@ abstract class EntityBase<T: java.io.Serializable>{
     }
 
     override fun hashCode(): Int {
-        return 22
+        return 31
     }
-
 }

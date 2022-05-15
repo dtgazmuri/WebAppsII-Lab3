@@ -33,7 +33,7 @@ class UserServiceImplementation(
         return c.time
     }
 
-    @Scheduled(fixedDelay = 3000)
+    @Scheduled(fixedDelay = 900000)
     fun checkDeadline() {
         activationRep.deleteExpiredActivation(Date())
     }
@@ -41,9 +41,9 @@ class UserServiceImplementation(
     override fun addUser(userDTO: UserDTO) {
 
         fun randomString(length: Long): String {
-            val leftLimit = 97; // letter 'a'
-            val rightLimit = 122; // letter 'z'
-            val random = Random();
+            val leftLimit = 97 // letter 'a'
+            val rightLimit = 122 // letter 'z'
+            val random = Random()
 
             var generatedString: String = random.ints(leftLimit, rightLimit + 1)
                 .limit(length)
@@ -68,9 +68,11 @@ class UserServiceImplementation(
             user = savedUser
         }
         activationRep.save(activation)
-        if (!emailService.sendEmail(userDTO, activation.activationCode!!)) {
-            throw EmailNotSentException("Problem in sending the email! Please try again")
-        }
+        emailService.sendEmail(
+            "Your activation code",
+            activation.activationCode!!,
+            userDTO.email!!
+        )
     }
 
     override fun changeActiveState(userDTO: UserDTO) {
