@@ -28,6 +28,4 @@ interface UserService {
     fun getActivationCodeByActivationID(activationID: UUID): String
 
     fun getCounterByID(activationID: UUID): Int
-
-    fun getUserByUsernameAndPassword(username: String, password: String): UserDTO
 }

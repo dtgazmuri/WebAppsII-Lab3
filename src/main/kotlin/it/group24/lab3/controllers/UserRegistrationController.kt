@@ -3,6 +3,7 @@ package it.group24.lab3.controllers
 
 import io.jsonwebtoken.Jwts
 import io.jsonwebtoken.security.Keys
+import it.group24.lab3.customExceptions.WrongCredentials
 import it.group24.lab3.customExceptions.WrongFieldException
 import it.group24.lab3.dtos.LoginFormDTO
 import it.group24.lab3.dtos.UserDTO
@@ -81,7 +82,12 @@ class UserRegistrationController(private val userService: UserServiceImplementat
 
         val username = loginFormDTO.username
         val password = loginFormDTO.password
-        val user = userService.getUserByUsernameAndPassword(username, password)
+        val user = userService.getUserByUsername(username)
+
+        val bCryptPasswordEncoder = BCryptPasswordEncoder()
+        if(!bCryptPasswordEncoder.matches(password, user.password))
+            throw WrongCredentials("Credentials you have provided are wrong!")
+
         val grantedAuthorities = AuthorityUtils
             .createAuthorityList(user.roles.toString())
         return "Bearer " + Jwts.builder()

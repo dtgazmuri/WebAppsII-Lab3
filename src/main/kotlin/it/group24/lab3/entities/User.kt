@@ -24,6 +24,7 @@ class User(
     @Column(updatable = true, nullable = false)
     var isActive: Boolean = false,
     @ElementCollection
+    @Enumerated(EnumType.STRING)
     var roles: MutableSet<Role> = mutableSetOf(Role.CUSTOMER)
 ){
 

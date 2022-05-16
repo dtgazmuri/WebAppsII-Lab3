@@ -134,12 +134,5 @@ class UserServiceImplementation(
     override fun getCounterByID(activationID: UUID): Int {
         return activationRep.getCounterByID(activationID).get()
     }
-
-    override fun getUserByUsernameAndPassword(username: String, password: String): UserDTO {
-        val user = userRep.findByUsernameAndPassword(username, password)
-        if(!user.isPresent)
-            throw WrongCredentials("Username or password you have provided are wrong!!")
-        return user.get().toDTO()
-    }
 }
 
