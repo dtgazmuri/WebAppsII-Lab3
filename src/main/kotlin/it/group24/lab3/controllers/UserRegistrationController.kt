@@ -88,13 +88,18 @@ class UserRegistrationController(private val userService: UserServiceImplementat
         if(!bCryptPasswordEncoder.matches(password, user.password))
             throw WrongCredentials("Credentials you have provided are wrong!")
 
-        val grantedAuthorities = AuthorityUtils
-            .createAuthorityList(user.roles.toString())
+        // val grantedAuthorities = AuthorityUtils.createAuthorityList(user.roles.toString())
+        var rolesString = ""
+        for ((index, r) in user.roles!!.withIndex()) {
+            rolesString = rolesString.plus(r.name)
+            if (index != user.roles!!.size)
+                rolesString = rolesString.plus(",")
+        }
         return "Bearer " + Jwts.builder()
             .setSubject(user.username)
             .setIssuedAt(Date())
             .setExpiration(getExpiration())
-            .claim("roles", grantedAuthorities)
+            .claim("roles", rolesString)
             .signWith(Keys.hmacShaKeyFor(secretKey!!.toByteArray(StandardCharsets.UTF_8)))
             .compact()
     }
