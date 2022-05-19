@@ -12,7 +12,6 @@ import it.group24.lab3.services.UserServiceImplementation
 import org.json.JSONObject
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.http.HttpStatus
-import org.springframework.security.core.authority.AuthorityUtils
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder
 
 import org.springframework.stereotype.Controller
@@ -88,7 +87,6 @@ class UserRegistrationController(private val userService: UserServiceImplementat
         if(!bCryptPasswordEncoder.matches(password, user.password))
             throw WrongCredentials("Credentials you have provided are wrong!")
 
-        // val grantedAuthorities = AuthorityUtils.createAuthorityList(user.roles.toString())
         var rolesString = ""
         for ((index, r) in user.roles!!.withIndex()) {
             rolesString = rolesString.plus(r.name)

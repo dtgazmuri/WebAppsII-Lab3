@@ -1,8 +1,6 @@
 package it.group24.lab3
 
-import it.group24.lab3.controllers.UserRegistrationController
 import org.springframework.beans.factory.annotation.Value
-import org.springframework.boot.SpringApplication
 import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.boot.runApplication
 import org.springframework.context.annotation.Bean
