@@ -12,11 +12,14 @@ import it.group24.lab3.services.UserServiceImplementation
 import org.json.JSONObject
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.http.HttpStatus
+import org.springframework.http.ResponseEntity
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder
 
 import org.springframework.stereotype.Controller
 
 import org.springframework.validation.BindingResult
+import org.springframework.web.bind.annotation.GetMapping
+import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestMapping
@@ -100,6 +103,20 @@ class UserRegistrationController(private val userService: UserServiceImplementat
             .claim("roles", rolesString)
             .signWith(Keys.hmacShaKeyFor(secretKey!!.toByteArray(StandardCharsets.UTF_8)))
             .compact()
+    }
+
+    @GetMapping("/{username}/authorities")
+    @ResponseBody
+    @ResponseStatus(HttpStatus.OK)
+    fun getUsernameAuthorities(@PathVariable username: String): String{
+        var rolesString = ""
+        val roles = userService.getUserByUsername(username).roles
+        for ((index, r) in roles!!.withIndex()) {
+            rolesString = rolesString.plus(r.name)
+            if (index != roles!!.size)
+                rolesString = rolesString.plus(",")
+        }
+        return rolesString
     }
 }
 
